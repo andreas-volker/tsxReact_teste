@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface Select {
-    index: 0;
+    index: number;
     option: string[];
 }
 

@@ -28,7 +28,7 @@ const AppContext = React.createContext<Stored>({
     },
 });
 export interface BasicProps {
-    theme: string;
-    lang: string;
+    theme: Select;
+    lang: Select;
 }
 export default AppContext;

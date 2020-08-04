@@ -1,3 +1,42 @@
 .home-sidebar {
     padding: 1rem;
 }
+
+.contas li .icon {
+    display: inline-block;
+}
+
+.contas li.selected .icon {
+    transform: rotate(90deg);
+}
+
+.contas li .name {
+    padding: 0 .3rem;
+}
+
+.contas li.selected ul {
+    padding-left: 1rem;
+}
+
+.header .fav {
+    border-top: 1px solid transparent;
+    padding: 1rem 0 1rem 1rem;
+    margin-top: 1rem;
+}
+
+.header .top button,
+.header .fav span {
+    float: right;
+}
+
+.header .top button {
+    vertical-align: super;
+}
+
+.home-sidebar.light .fav {
+    border-top-color: #000;
+}
+
+.home-sidebar.dark .fav {
+    border-top-color: #fff;
+}

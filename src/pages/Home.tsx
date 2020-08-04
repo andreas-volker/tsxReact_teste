@@ -13,12 +13,10 @@ const Home: React.FC<BasicProps> = (props) => {
         [isDragging, setDrag] = useState(false),
         [menuId, setMenuId] = useState(0),
         setId = (id: number) => {
-            console.log(id);
             setMenuId(id);
         },
         on = {
             move: (e: MouseEvent) => {
-                console.log(e.pageX);
                 if (!isDragging) return false;
                 const styleWidth = sidebar.current.style.width;
                 sidebar.current.style.width = '';

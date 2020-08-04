@@ -7,18 +7,21 @@
     display: flex;
 }
 
+.header {
+    min-width: 14rem;
+}
+
 .content,
 .sidebar {
-    font-size: 1.1rem;
     box-sizing: border-box;
     flex: 1 1 auto;
     overflow: auto;
     white-space: nowrap;
+    user-select: none;
 }
 
 .sidebar {
     flex-grow: 0;
-    user-select: none;
 }
 
 .slider {

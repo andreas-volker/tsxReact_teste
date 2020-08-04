@@ -2,9 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { BasicProps } from 'contexts/stored';
 import './HomeSidebar.css';
 
+interface Menu {
+    id: number;
+    name: string;
+    subMenus: Menu[];
+}
+
 const HomeSidebar: React.FC<BasicProps> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
-        [contas, setContas] = useState({});
+        [contas, setContas] = useState<Menu[]>([
+            {
+                id: 0,
+                name: '',
+                subMenus: [],
+            },
+        ]);
     useEffect(() => {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'http://my-json-server.typicode.com/EnkiGroup/DesafioReactEncontact/menus', true);
@@ -18,7 +30,7 @@ const HomeSidebar: React.FC<BasicProps> = (props) => {
                     } catch (e) {}
                 }
                 console.log(data);
-                setContas(data);
+                setContas(data as Menu[]);
             }
         };
         xhr.send();
@@ -30,7 +42,24 @@ const HomeSidebar: React.FC<BasicProps> = (props) => {
                     <span>OA</span>
                 </div>
             </div>
-            <div className="contas"></div>
+            <ul className="contas">
+                {contas.map((item: Menu) => {
+                    return (
+                        <li key={item.id}>
+                            <span>{item.name}</span>
+                            <ul className="contas">
+                                {item.subMenus.map((item2) => {
+                                    return (
+                                        <li key={item2.id}>
+                                            <span>{item2.name}</span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </li>
+                    );
+                })}
+            </ul>
         </div>
     );
 };

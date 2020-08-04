@@ -8,7 +8,8 @@ const Home: React.FC<BasicProps> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
         wrapper = useRef() as MutableRefObject<HTMLDivElement>,
         sidebar = useRef() as MutableRefObject<HTMLDivElement>,
-        [style, setStyle] = useState<CSSProperties>(),
+        [styleSidebar, setStyleSidebar] = useState<CSSProperties>(),
+        [styleContent, setStyleContent] = useState<CSSProperties>(),
         [isDragging, setDrag] = useState(false),
         [menuId, setMenuId] = useState(0),
         setId = (id: number) => {
@@ -17,15 +18,20 @@ const Home: React.FC<BasicProps> = (props) => {
         },
         on = {
             move: (e: MouseEvent) => {
+                console.log(e.pageX);
                 if (!isDragging) return false;
                 const styleWidth = sidebar.current.style.width;
                 sidebar.current.style.width = '';
                 const offset = wrapper.current.offsetLeft,
                     xPos = e.clientX - offset,
-                    minWidth = sidebar.current.offsetWidth;
+                    minWidth = sidebar.current.offsetWidth / 2,
+                    width = Math.max(minWidth, xPos + 4);
                 sidebar.current.style.width = styleWidth;
-                setStyle({
-                    width: Math.max(minWidth, xPos - 4) + 'px',
+                setStyleSidebar({
+                    width: width + 'px',
+                });
+                setStyleContent({
+                    width: `${wrapper.current.clientWidth - width}px`,
                 });
             },
             down: (e: MouseEvent) => {
@@ -44,11 +50,13 @@ const Home: React.FC<BasicProps> = (props) => {
             onMouseUp={on.up}
             onMouseMove={on.move}
         >
-            <div ref={sidebar} style={style} className="sidebar">
+            <div ref={sidebar} style={styleSidebar} className="sidebar">
                 <HomeSidebar setId={setId} theme={props.theme} lang={props.lang} />
             </div>
             <div className="slider"></div>
-            <HomeContent id={menuId} theme={props.theme} lang={props.lang} />
+            <div style={styleContent} className="content">
+                <HomeContent id={menuId} theme={props.theme} lang={props.lang} />
+            </div>
         </div>
     );
 };

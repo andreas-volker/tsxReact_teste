@@ -7,16 +7,18 @@
     display: flex;
 }
 
-.home-content,
+.content,
 .sidebar {
-    padding: 1rem;
     font-size: 1.1rem;
     box-sizing: border-box;
     flex: 1 1 auto;
+    overflow: auto;
+    white-space: nowrap;
 }
 
 .sidebar {
     flex-grow: 0;
+    user-select: none;
 }
 
 .slider {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BasicProps } from 'contexts/stored';
 import './HomeContent.css';
 
-interface Item {
+interface SubMenuItem {
     id: string;
     name: string;
     owner: string;
@@ -10,9 +10,9 @@ interface Item {
     users: string[];
 }
 
-interface Dados {
+interface Item {
     id: number;
-    subMenuItems: Item[];
+    subMenuItems: SubMenuItem[];
 }
 
 interface Content extends BasicProps {
@@ -21,39 +21,38 @@ interface Content extends BasicProps {
 
 const HomeContent: React.FC<Content> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
-        [itens, setItens] = useState<Item[]>([
-            {
-                id: '',
-                name: '',
-                owner: '',
-                subject: '',
-                users: [''],
-            },
-        ]);
+        [itens, setItens] = useState<Item>({
+            id: 0,
+            subMenuItems: [
+                {
+                    id: '',
+                    name: '',
+                    owner: '',
+                    subject: '',
+                    users: [''],
+                },
+            ],
+        });
     useEffect(() => {
-        if (!props.id) return;
+        if (!props.id || props.id === itens.id) return;
         var xhr = new XMLHttpRequest();
         xhr.open('GET', `http://my-json-server.typicode.com/EnkiGroup/DesafioReactEncontact/items/${props.id}`, true);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
-                let data: Dados = {
-                    id: 0,
-                    subMenuItems: [],
-                };
+                let data = {};
                 if (this.status >= 200 && this.status < 400) {
                     try {
                         data = JSON.parse(this.responseText);
                     } catch (e) {}
                 }
-                console.log(data);
-                setItens(data.subMenuItems as Item[]);
+                setItens(data as Item);
             }
         };
         xhr.send();
-    }, [props]);
+    }, [props, itens.id]);
     return (
         <div className={`home-content ${theme}`}>
-            {itens.map((item: Item) => {
+            {itens.subMenuItems.map((item: SubMenuItem) => {
                 return (
                     <li key={item.id}>
                         <span>{item.name}</span>

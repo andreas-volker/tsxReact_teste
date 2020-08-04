@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import AppContext from 'contexts/stored';
 import Login from 'pages/Login';
 import Home from 'pages/Home';
 
 const App: React.FC<any> = (props) => {
-    const context = React.useContext(AppContext) || {},
+    const context = useContext(AppContext) || {},
         log = !context.state.authed;
     function LoginWrap() {
         return (

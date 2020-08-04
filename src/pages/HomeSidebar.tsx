@@ -8,7 +8,11 @@ interface Menu {
     subMenus: Menu[];
 }
 
-const HomeSidebar: React.FC<BasicProps> = (props) => {
+interface Sidebar extends BasicProps {
+    setId: (id: number) => void;
+}
+
+const HomeSidebar: React.FC<Sidebar> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
         [contas, setContas] = useState<Menu[]>([
             {
@@ -51,7 +55,15 @@ const HomeSidebar: React.FC<BasicProps> = (props) => {
                                 {item.subMenus.map((item2) => {
                                     return (
                                         <li key={item2.id}>
-                                            <span>{item2.name}</span>
+                                            <span
+                                                data-id={item2.id}
+                                                onClick={(e) => {
+                                                    let id = (e.target as HTMLElement).dataset.id || '';
+                                                    props.setId(parseInt(id, 10));
+                                                }}
+                                            >
+                                                {item2.name}
+                                            </span>
                                         </li>
                                     );
                                 })}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import AppContext, { BasicProps } from 'contexts/stored';
 import './Login.css';
 
@@ -6,7 +6,7 @@ const Login: React.FC<BasicProps> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
         [username, setUsername] = useState(''),
         [password, setPassword] = useState(''),
-        context = React.useContext(AppContext) || {},
+        context = useContext(AppContext) || {},
         click = () => {
             if (username !== 'admin' || password !== 'admin') {
                 alert('admin\nadmin');

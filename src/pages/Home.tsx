@@ -10,6 +10,11 @@ const Home: React.FC<BasicProps> = (props) => {
         sidebar = useRef() as MutableRefObject<HTMLDivElement>,
         [style, setStyle] = useState<CSSProperties>(),
         [isDragging, setDrag] = useState(false),
+        [menuId, setMenuId] = useState(0),
+        setId = (id: number) => {
+            console.log(id);
+            setMenuId(id);
+        },
         on = {
             move: (e: MouseEvent) => {
                 if (!isDragging) return false;
@@ -40,10 +45,10 @@ const Home: React.FC<BasicProps> = (props) => {
             onMouseMove={on.move}
         >
             <div ref={sidebar} style={style} className="sidebar">
-                <HomeSidebar theme={props.theme} lang={props.lang} />
+                <HomeSidebar setId={setId} theme={props.theme} lang={props.lang} />
             </div>
             <div className="slider"></div>
-            <HomeContent theme={props.theme} lang={props.lang} />
+            <HomeContent id={menuId} theme={props.theme} lang={props.lang} />
         </div>
     );
 };

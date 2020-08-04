@@ -1,0 +1,53 @@
+.home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.home-content,
+.sidebar {
+    padding: 1rem;
+    font-size: 1.1rem;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+}
+
+.sidebar {
+    flex-grow: 0;
+}
+
+.slider {
+    width: 8px;
+    padding: 0;
+    cursor: ew-resize;
+    flex: 0 0 auto;
+}
+
+.slider::before {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: rgb(34, 32, 32);
+    margin: 0 auto;
+}
+
+.home.light {
+    background: #fff;
+    color: #000;
+}
+.home.dark {
+    background: #000;
+    color: #fff;
+}
+
+.home.light .slider::before {
+    background: #000;
+}
+
+.home.dark .slider::before {
+    background: #fff;
+}

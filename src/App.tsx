@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import AppContext from 'contexts/stored';
+import Login from 'pages/Login';
+import Home from 'pages/Home';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
+const App: React.FC<any> = (props) => {
+    const context = React.useContext(AppContext) || {},
+        log = !context.state.authed;
+    function LoginWrap() {
+        return (
+            <AppContext.Consumer>
+                {(context) => {
+                    const state = context.state;
+                    return <Login theme={state.theme} lang={state.lang} />;
+                }}
+            </AppContext.Consumer>
+        );
+    }
+    function HomeWrap() {
+        return (
+            <AppContext.Consumer>
+                {(context) => {
+                    const state = context.state;
+                    return <Home theme={state.theme} lang={state.lang} />;
+                }}
+            </AppContext.Consumer>
+        );
+    }
+    return (
+        <div className="App">
+            <Router>
+                <Switch>
+                    {log ? (
+                        <Route path="/login">
+                            <LoginWrap></LoginWrap>
+                        </Route>
+                    ) : null}
+                    {log ? <Redirect to="/login" /> : null}
+                    <Route exact path="/">
+                        <HomeWrap></HomeWrap>
+                    </Route>
+                    <Route path="*">
+                        <Redirect to="/" />
+                    </Route>
+                </Switch>
+            </Router>
+        </div>
+    );
+};
 export default App;

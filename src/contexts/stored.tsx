@@ -16,13 +16,13 @@ interface Stored {
 }
 const AppContext = React.createContext<Stored>({
     state: {
-        authed: false,
+        authed: localStorage.authed || false,
         lang: {
-            index: 0,
+            index: localStorage.lang || 0,
             option: ['pt-br', 'en-us'],
         },
         theme: {
-            index: 0,
+            index: localStorage.theme || 0,
             option: ['light', 'dark'],
         },
     },

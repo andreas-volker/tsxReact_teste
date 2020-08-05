@@ -1,3 +1,25 @@
+.home-content .header .search {
+    margin: 1.5rem 1rem 0.5rem;
+    border-bottom: 1px solid transparent;
+    min-height: 3.5rem;
+}
+
+.home-content .header .search input {
+    margin-bottom: 1rem;
+    line-height: 2;
+    width: 100%;
+    padding-left: 0.5rem;
+}
+
+.home-content .header .botoes {
+    padding: .5rem 1rem;
+    border-bottom: 1px solid transparent;
+}
+
+.home-content .header .botoes button {
+    margin: 0 .4rem;
+}
+
 .home-content .msg .zap svg {
     width: 2rem;
     height: 2rem;
@@ -6,6 +28,14 @@
 
 .home-content .itens {
     user-select: text;
+}
+
+.home-content .itens li {
+    display: flex;
+}
+
+.home-content .itens li .msg {
+    flex-grow:1;
 }
 
 .home-content.light {
@@ -22,4 +52,20 @@
 
 .home-content.dark .msg .zap {
     fill: #fff;
+}
+
+.home-content.light .header .search {
+    border-color: #000;
+}
+
+.home-content.dark .header .search {
+    border-color: #fff;
+}
+
+.home-content.light .header .botoes {
+    border-color: #000;
+}
+
+.home-content.dark .header .botoes {
+    border-color: #fff;
 }

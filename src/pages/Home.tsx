@@ -8,8 +8,12 @@ const Home: React.FC<BasicProps> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
         wrapper = useRef() as MutableRefObject<HTMLDivElement>,
         sidebar = useRef() as MutableRefObject<HTMLDivElement>,
-        [styleSidebar, setStyleSidebar] = useState<CSSProperties>(),
-        [styleContent, setStyleContent] = useState<CSSProperties>(),
+        [styleSidebar, setStyleSidebar] = useState<CSSProperties>(
+            localStorage.styleSidebar ? JSON.parse(localStorage.styleSidebar) : {},
+        ),
+        [styleContent, setStyleContent] = useState<CSSProperties>(
+            localStorage.styleContent ? JSON.parse(localStorage.styleContent) : {},
+        ),
         [isDragging, setDrag] = useState(false),
         [menuId, setMenuId] = useState(JSON.parse(localStorage.menuId || '0')),
         [nome, setNome] = useState(''),
@@ -30,9 +34,11 @@ const Home: React.FC<BasicProps> = (props) => {
                 setStyleSidebar({
                     width: width + 'px',
                 });
+                localStorage.styleSidebar = JSON.stringify(styleSidebar);
                 setStyleContent({
                     width: `${wrapper.current.clientWidth - width}px`,
                 });
+                localStorage.styleContent = JSON.stringify(styleContent);
             },
             down: (e: MouseEvent) => {
                 if (/slider/.test((e.target as HTMLElement).className)) setDrag(true);

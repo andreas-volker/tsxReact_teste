@@ -11,7 +11,7 @@ interface Menu {
 }
 
 interface Sidebar extends BasicProps {
-    setId: (id: number) => void;
+    setId: (id: number, nome: string) => void;
     menuId: number;
 }
 
@@ -20,7 +20,7 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
         context = useContext(AppContext) || {},
         history = useHistory(),
         [settings, setSettings] = useState(JSON.parse(localStorage.settings || 'false')),
-        [selected, setSelected] = useState(-1),
+        [selected, setSelected] = useState(JSON.parse(localStorage.selected || 'false')),
         [contas, setContas] = useState<Menu[]>([
             {
                 id: 0,
@@ -58,8 +58,11 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
         },
         logout = () => {
             if (context.update) {
-                localStorage.settings = false;
-                localStorage.authed = false;
+                localStorage.removeItem('authed');
+                localStorage.removeItem('settings');
+                localStorage.removeItem('menuId');
+                localStorage.removeItem('selected');
+                localStorage.removeItem('itens');
                 context.state.authed = false;
                 context.update(context);
                 history.push('/login');
@@ -69,12 +72,14 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
             let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
                 id = el?.dataset.id || '-1';
             if (id === selected.toString()) id = '-1';
+            localStorage.selected = id;
             setSelected(parseInt(id, 10));
         },
         abrir = (e: MouseEvent) => {
             let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
                 id = el?.dataset.id || '-1';
-            props.setId(parseInt(id, 10));
+            localStorage.menuId = id;
+            props.setId(parseInt(id, 10), '');
         };
     useEffect(() => {
         var xhr = new XMLHttpRequest();

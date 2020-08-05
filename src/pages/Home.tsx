@@ -11,9 +11,11 @@ const Home: React.FC<BasicProps> = (props) => {
         [styleSidebar, setStyleSidebar] = useState<CSSProperties>(),
         [styleContent, setStyleContent] = useState<CSSProperties>(),
         [isDragging, setDrag] = useState(false),
-        [menuId, setMenuId] = useState(0),
-        setId = (id: number) => {
-            setMenuId(id);
+        [menuId, setMenuId] = useState(JSON.parse(localStorage.menuId || '0')),
+        [nome, setNome] = useState(''),
+        setId = (id: number, nome: string) => {
+            if (id) setMenuId(id);
+            if (nome) setNome(nome);
         },
         on = {
             move: (e: MouseEvent) => {
@@ -53,7 +55,7 @@ const Home: React.FC<BasicProps> = (props) => {
             </div>
             <div className="slider"></div>
             <div style={styleContent} className="content">
-                <HomeContent id={menuId} theme={props.theme} lang={props.lang} />
+                <HomeContent nome={nome} menuId={menuId} theme={props.theme} lang={props.lang} />
             </div>
         </div>
     );

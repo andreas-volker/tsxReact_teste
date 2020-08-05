@@ -1,0 +1,25 @@
+.home-content .msg .zap svg {
+    width: 2rem;
+    height: 2rem;
+    transform: scale(0.8);
+}
+
+.home-content .itens {
+    user-select: text;
+}
+
+.home-content.light {
+    color: #000;
+}
+
+.home-content.dark {
+    color: #fff;
+}
+
+.home-content.light .msg .zap {
+    fill: #000;
+}
+
+.home-content.dark .msg .zap {
+    fill: #fff;
+}

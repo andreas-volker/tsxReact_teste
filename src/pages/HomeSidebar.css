@@ -88,6 +88,7 @@
 }
 
 .header .userMenu {
+    position: relative;
     display: inline-block;
     border-radius: 50%;
     border: 1px solid transparent;
@@ -124,5 +125,18 @@
 }
 
 .header .userMenu {
-    background: crimson;
+    background: yellow;
+    color: #000;
+}
+
+.header .userMenu::before {
+content: '';
+    border-radius: 50%;
+    width: .8rem;
+    height: .8rem;
+    background: green;
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }

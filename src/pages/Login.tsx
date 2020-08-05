@@ -27,13 +27,13 @@ const Login: React.FC<BasicProps> = (props) => {
                         type="text"
                         placeholder="Usuário"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.currentTarget.value)}
                     />
                     <input
                         type="text"
                         placeholder="Senha"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.currentTarget.value)}
                     />
                     <button onClick={click}>
                         <span>Entrar</span>

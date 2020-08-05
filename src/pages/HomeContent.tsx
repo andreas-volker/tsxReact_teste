@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, MouseEvent, FormEvent } from 'react';
 import { BasicProps } from 'contexts/stored';
 import './HomeContent.css';
 
@@ -21,7 +21,6 @@ interface Content extends BasicProps {
 }
 
 const HomeContent: React.FC<Content> = (props) => {
-    console.log(props);
     const json = JSON.stringify({
             id: 0,
             subMenuItems: [
@@ -35,7 +34,51 @@ const HomeContent: React.FC<Content> = (props) => {
             ],
         }),
         theme = props.theme.option[props.theme.index] || props.theme.option[0],
-        [itens, setItens] = useState<Item>(JSON.parse(localStorage.itens || json));
+        [itens, setItens] = useState<Item>(JSON.parse(localStorage.itens || json)),
+        [checked, setChecked] = useState<string[]>(JSON.parse(localStorage.checked || '[]')),
+        [archive, setArchive] = useState<string[]>(JSON.parse(localStorage.archive || '[]')),
+        letterToRGB = (iniciais: string) => {
+            iniciais = iniciais.toLowerCase();
+            let first = iniciais.charCodeAt(0),
+                last = iniciais.charCodeAt(1),
+                distance = Math.abs(first - last),
+                red = distance > 12 ? distance * 10 : 255 / (distance + 1),
+                green = distance > 12 ? distance * 1 : distance * 20,
+                blue = distance > 12 ? distance * 10 : distance * 2,
+                intensity = red * 0.299 + green * 0.587 + blue * 0.114;
+            return { color: intensity > 186 ? '#000' : '#fff', background: `rgb(${red}, ${green}, ${blue})` };
+        },
+        selectAll = (e: FormEvent) => {
+            let list: string[] = [];
+            if ((e.currentTarget as HTMLInputElement).checked) {
+                list = [...checked];
+                itens.subMenuItems.forEach((item: SubMenuItem) => {
+                    if (list.indexOf(item.id) < 0) {
+                        list.push(item.id);
+                    }
+                });
+            }
+            setChecked(list);
+            localStorage.checked = JSON.stringify(list);
+        },
+        selectItem = (e: FormEvent) => {
+            let el: HTMLElement | null = e.currentTarget as HTMLElement,
+                id = el?.dataset.id || '',
+                list = [...checked];
+            if (!id) return;
+            let index = list.indexOf(id);
+            if (index < 0) list.push(id);
+            else list.splice(index, 1);
+            setChecked(list);
+            localStorage.checked = JSON.stringify(list);
+        },
+        arquivar = (e: MouseEvent) => {
+            const list = [...archive, ...checked];
+            setArchive(list);
+            setChecked([]);
+            localStorage.archive = JSON.stringify(list);
+            localStorage.checked = '[]';
+        };
     useEffect(() => {
         if (!props.menuId || props.menuId === itens.id) return;
         var xhr = new XMLHttpRequest();
@@ -65,30 +108,33 @@ const HomeContent: React.FC<Content> = (props) => {
                     <input type="text" placeholder="Pesquisar" />
                 </div>
                 <div className="botoes">
-                    <input
-                        type="checkbox"
-                        onChange={(e) => {
-                            console.log(e.target.checked);
-                        }}
-                    />
+                    <input type="checkbox" onChange={selectAll} />
                     <button>Atribuir</button>
-                    <button>Arquivar</button>
+                    <button onClick={arquivar}>Arquivar</button>
                     <button>Agendar</button>
                 </div>
             </div>
             <div className="itens">
-                <ul>
+                <ul className={checked.length ? 'checking' : ''}>
                     {itens.subMenuItems.map((item: SubMenuItem) => {
-                        if (!item.id) return null;
+                        if (!item.id || archive.indexOf(item.id) >= 0) return null;
                         return (
                             <li key={item.id}>
-                                <div className="checkbox">
-                                    <span>{item.owner}</span>
+                                <div className={'checkbox ' + (!checked.length ? 'owner' : 'check')}>
+                                    <div style={letterToRGB(item.owner || 'az')}>
+                                        <span>{item.owner}</span>
+                                        <input
+                                            data-id={item.id}
+                                            checked={checked.indexOf(item.id) >= 0}
+                                            onChange={selectItem}
+                                            type="checkbox"
+                                        />
+                                    </div>
                                 </div>
                                 <div className="msg">
                                     <span>{item.name}</span>
                                     <span>{item.subject}</span>
-                                    <span>
+                                    <span className="inbox">
                                         <span className="zap">
                                             <svg>
                                                 <path
@@ -112,9 +158,13 @@ const HomeContent: React.FC<Content> = (props) => {
                                 <div className="detail">
                                     <span>Hoje, 11h42</span>
                                     <span>2 horas</span>
-                                    <div className="users">
+                                    <div className="users-list">
                                         {item.users.map((user, index) => {
-                                            return <span key={index}>{user}</span>;
+                                            return (
+                                                <div key={index} style={letterToRGB(user || 'az')} className="users">
+                                                    <span>{user}</span>
+                                                </div>
+                                            );
                                         })}
                                     </div>
                                 </div>

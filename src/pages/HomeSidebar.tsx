@@ -33,7 +33,7 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
             localStorage.settings = !settings;
         },
         contextOption = (e: MouseEvent, select: Select, nome: string) => {
-            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-dir]'),
+            let el: HTMLElement | null = e.currentTarget as HTMLElement,
                 dir = el?.dataset.dir || 'right';
             if (!context.update) return;
             let limit = select.option.length;
@@ -63,23 +63,26 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                 localStorage.removeItem('menuId');
                 localStorage.removeItem('selected');
                 localStorage.removeItem('itens');
+                localStorage.removeItem('nome');
+                localStorage.removeItem('checked');
+                localStorage.removeItem('archive');
                 context.state.authed = false;
                 context.update(context);
                 history.push('/login');
             }
         },
         selecionar = (e: MouseEvent) => {
-            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
+            let el: HTMLElement | null = e.currentTarget as HTMLElement,
                 id = el?.dataset.id || '-1';
             if (id === selected.toString()) id = '-1';
             localStorage.selected = id;
             setSelected(parseInt(id, 10));
         },
         abrir = (e: MouseEvent) => {
-            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
+            let el: HTMLElement | null = e.currentTarget as HTMLElement,
                 id = el?.dataset.id || '-1';
-            localStorage.menuId = id;
-            props.setId(parseInt(id, 10), '');
+            el = (e.currentTarget as HTMLElement).querySelector('span');
+            props.setId(parseInt(id, 10), el?.innerHTML + '');
         };
     useEffect(() => {
         var xhr = new XMLHttpRequest();

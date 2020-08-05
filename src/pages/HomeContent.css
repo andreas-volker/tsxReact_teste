@@ -20,22 +20,128 @@
     margin: 0 .4rem;
 }
 
+.home-content .msg .inbox {
+    margin-top: -.6rem;
+}
+
+.home-content .msg .zap {
+    vertical-align: sub;
+}
+
 .home-content .msg .zap svg {
     width: 2rem;
     height: 2rem;
-    transform: scale(0.8);
+    transform: scale(0.6);
+    margin-left: -.4rem;
+    transform-origin: bottom;
 }
 
 .home-content .itens {
     user-select: text;
 }
 
+.home-content .itens .checkbox {
+    padding: 1rem;
+}
+
+.home-content .itens .checkbox > div {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
+    cursor: default;
+}
+
+.home-content .itens .checkbox.check > div,
+.home-content .itens li:hover .checkbox.owner > div {
+    background: transparent !important;
+    color: transparent !important;
+    border-color: transparent !important;
+}
+
+.home-content .itens .checkbox.check > div > span,
+.home-content .itens li:hover .checkbox.owner > div > span {
+    width: 0;
+    display: inline-block;
+    visibility: hidden;
+}
+
+.home-content .itens .checkbox > div > span {
+    line-height: 3;
+}
+
+.home-content .itens .checkbox > div > input {
+    display: none;
+}
+
+.home-content .itens .checkbox.check > div > input,
+.home-content .itens li:hover .checkbox.owner > div > input {
+    display: inline-block;
+}
+
+.home-content .itens .detail {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    padding: .7rem;
+}
+
+.home-content .itens .detail > span {
+    font-size: .7rem;
+    flex: 1;
+}
+
+.home-content .itens .detail .users-list {
+    display: flex;
+    margin-left: 1rem;
+}
+
+.home-content .itens .detail .users {
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    height: 2rem;
+    width: 2rem;
+    font-size: .6rem;
+    text-align: center;
+    cursor: default;
+    margin-left: -.4rem;
+}
+
+.home-content .itens .detail .users > span {
+    line-height: 3;
+}
+
 .home-content .itens li {
     display: flex;
+    border-bottom: 1px solid transparent;
 }
 
 .home-content .itens li .msg {
     flex-grow:1;
+    padding-top: 0.7rem;
+}
+
+.home-content .itens li .msg > * {
+    font-size: 1rem;
+    display: block;
+}
+
+.home-content .itens .checkbox > div {
+    background: #fff;
+}
+
+.home-content.light .itens .checkbox > div {
+    border-color: #000;
+}
+
+.home-content.dark .itens .checkbox > div {
+    border-color: #fff;
 }
 
 .home-content.light {
@@ -68,4 +174,30 @@
 
 .home-content.dark .header .botoes {
     border-color: #fff;
+}
+
+.home-content.light .itens li {
+    border-color: #000;
+}
+
+.home-content.dark .itens li {
+    border-color: #fff;
+}
+
+.home-content.light .itens .users {
+    border-color: #000;
+}
+
+.home-content.dark .itens .users {
+    border-color: #fff;
+}
+
+.home-content.light .header .search input {
+    color: #000;
+    background: #fff;
+}
+
+.home-content.dark .header .search input {
+    color: #fff;
+    background: #000;
 }

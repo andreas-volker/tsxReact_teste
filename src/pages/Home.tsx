@@ -16,10 +16,12 @@ const Home: React.FC<BasicProps> = (props) => {
         ),
         [isDragging, setDrag] = useState(false),
         [menuId, setMenuId] = useState(JSON.parse(localStorage.menuId || '0')),
-        [nome, setNome] = useState(''),
-        setId = (id: number, nome: string) => {
+        [nome, setNome] = useState(localStorage.nome),
+        setId = (id: number, txt: string) => {
             if (id) setMenuId(id);
-            if (nome) setNome(nome);
+            if (txt) setNome(txt);
+            localStorage.menuId = id;
+            localStorage.nome = txt;
         },
         on = {
             move: (e: MouseEvent) => {
@@ -41,7 +43,7 @@ const Home: React.FC<BasicProps> = (props) => {
                 localStorage.styleContent = JSON.stringify(styleContent);
             },
             down: (e: MouseEvent) => {
-                if (/slider/.test((e.target as HTMLElement).className)) setDrag(true);
+                if (/slider/.test((e.currentTarget as HTMLElement).className)) setDrag(true);
             },
             up: (e: MouseEvent) => {
                 setDrag(false);

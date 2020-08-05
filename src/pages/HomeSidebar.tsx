@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { BasicProps } from 'contexts/stored';
+import React, { useEffect, useState, useContext, MouseEvent } from 'react';
+import { useHistory } from 'react-router-dom';
+import AppContext from 'contexts/stored';
+import { BasicProps, Select } from 'contexts/stored';
 import './HomeSidebar.css';
 
 interface Menu {
@@ -10,10 +12,14 @@ interface Menu {
 
 interface Sidebar extends BasicProps {
     setId: (id: number) => void;
+    menuId: number;
 }
 
 const HomeSidebar: React.FC<Sidebar> = (props) => {
     const theme = props.theme.option[props.theme.index] || props.theme.option[0],
+        context = useContext(AppContext) || {},
+        history = useHistory(),
+        [settings, setSettings] = useState(JSON.parse(localStorage.settings || 'false')),
         [selected, setSelected] = useState(-1),
         [contas, setContas] = useState<Menu[]>([
             {
@@ -21,7 +27,55 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                 name: '',
                 subMenus: [],
             },
-        ]);
+        ]),
+        openSettings = () => {
+            setSettings(!settings);
+            localStorage.settings = !settings;
+        },
+        contextOption = (e: MouseEvent, select: Select, nome: string) => {
+            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-dir]'),
+                dir = el?.dataset.dir || 'right';
+            if (!context.update) return;
+            let limit = select.option.length;
+            if (dir === 'right') {
+                select.index++;
+            } else {
+                select.index--;
+            }
+            if (select.index >= limit) select.index = 0;
+            else if (select.index < 0) select.index = limit - 1;
+            if (nome === 'lang') context.state.lang = select;
+            else if (nome === 'theme') context.state.theme = select;
+            context.update(context);
+        },
+        setLang = (e: MouseEvent) => {
+            contextOption(e, context.state.lang, 'lang');
+            localStorage.lang = context.state.lang.index;
+        },
+        setTheme = (e: MouseEvent) => {
+            contextOption(e, context.state.theme, 'theme');
+            localStorage.theme = context.state.theme.index;
+        },
+        logout = () => {
+            if (context.update) {
+                localStorage.settings = false;
+                localStorage.authed = false;
+                context.state.authed = false;
+                context.update(context);
+                history.push('/login');
+            }
+        },
+        selecionar = (e: MouseEvent) => {
+            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
+                id = el?.dataset.id || '-1';
+            if (id === selected.toString()) id = '-1';
+            setSelected(parseInt(id, 10));
+        },
+        abrir = (e: MouseEvent) => {
+            let el: HTMLElement | null = (e.target as HTMLElement).closest('[data-id]'),
+                id = el?.dataset.id || '-1';
+            props.setId(parseInt(id, 10));
+        };
     useEffect(() => {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'http://my-json-server.typicode.com/EnkiGroup/DesafioReactEncontact/menus', true);
@@ -42,7 +96,7 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
         <div className={`home-sidebar ${theme}`}>
             <div className="header">
                 <div className="top">
-                    <div className="userMenu">
+                    <div className="userMenu" onClick={openSettings}>
                         <span>OA</span>
                     </div>
                     <button>New</button>
@@ -52,48 +106,27 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                     <span>30</span>
                 </div>
             </div>
-            <div className="menu">
-                <ul>
-                    <li>
-                        <span>Mudar idioma</span>
-                    </li>
-                    <li>
-                        <span>Mudar tema</span>
-                    </li>
-                    <li>
-                        <span>Logout</span>
-                    </li>
-                </ul>
-            </div>
             <ul className="contas">
                 {contas.map((item: Menu) => {
                     return (
                         <li key={item.id} className={item.id === selected ? 'selected' : ''}>
-                            <div className="icon">&#128898;</div>
-                            <span
-                                className="name"
-                                data-id={item.id}
-                                onClick={(e) => {
-                                    let id = (e.target as HTMLElement).dataset.id || '';
-                                    setSelected(parseInt(id, 10));
-                                }}
-                            >
-                                {item.name}
-                            </span>
+                            <div data-id={item.id} onClick={selecionar}>
+                                <div className="icon">&#128898;</div>
+                                <span className="name">{item.name}</span>
+                                <div className="number">20</div>
+                            </div>
                             {item.id !== selected ? null : (
                                 <ul className="inbox">
                                     {item.subMenus.map((item2) => {
                                         return (
-                                            <li key={item2.id}>
-                                                <span
-                                                    data-id={item2.id}
-                                                    onClick={(e) => {
-                                                        let id = (e.target as HTMLElement).dataset.id || '';
-                                                        props.setId(parseInt(id, 10));
-                                                    }}
-                                                >
-                                                    {item2.name}
-                                                </span>
+                                            <li
+                                                key={item2.id}
+                                                className={`sub ${props.menuId === item2.id ? 'opened' : ''}`}
+                                                data-id={item2.id}
+                                                onClick={abrir}
+                                            >
+                                                <span>{item2.name}</span>
+                                                <div className="number">15</div>
                                             </li>
                                         );
                                     })}
@@ -103,6 +136,38 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                     );
                 })}
             </ul>
+            {settings ? (
+                <div className="menu">
+                    <span className="close" onClick={openSettings}>
+                        &times;
+                    </span>
+                    <ul>
+                        <li>
+                            Idioma
+                            <span data-dir="left" onClick={setLang}>
+                                &lt;
+                            </span>
+                            {context.state.lang.option[context.state.lang.index]}
+                            <span data-dir="right" onClick={setLang}>
+                                &gt;
+                            </span>
+                        </li>
+                        <li>
+                            Tema
+                            <span data-dir="left" onClick={setTheme}>
+                                &lt;
+                            </span>
+                            {context.state.theme.option[context.state.theme.index]}
+                            <span data-dir="right" onClick={setTheme}>
+                                &gt;
+                            </span>
+                        </li>
+                        <li onClick={logout}>
+                            <span>Logout</span>
+                        </li>
+                    </ul>
+                </div>
+            ) : null}
         </div>
     );
 };

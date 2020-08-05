@@ -49,7 +49,7 @@ const Home: React.FC<BasicProps> = (props) => {
             onMouseMove={on.move}
         >
             <div ref={sidebar} style={styleSidebar} className="sidebar">
-                <HomeSidebar setId={setId} theme={props.theme} lang={props.lang} />
+                <HomeSidebar menuId={menuId} setId={setId} theme={props.theme} lang={props.lang} />
             </div>
             <div className="slider"></div>
             <div style={styleContent} className="content">

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, MouseEvent } from 'react';
 import AppContext, { BasicProps } from 'contexts/stored';
 import './Login.css';
 
@@ -7,7 +7,8 @@ const Login: React.FC<BasicProps> = (props) => {
         [username, setUsername] = useState(''),
         [password, setPassword] = useState(''),
         context = useContext(AppContext) || {},
-        click = () => {
+        click = (e: MouseEvent) => {
+            e.preventDefault();
             if (username !== 'admin' || password !== 'admin') {
                 alert('admin\nadmin');
                 return;

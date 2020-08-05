@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-interface Select {
+export interface Select {
     index: number;
     option: string[];
 }
@@ -16,13 +16,13 @@ interface Stored {
 }
 const AppContext = React.createContext<Stored>({
     state: {
-        authed: localStorage.authed || false,
+        authed: JSON.parse(localStorage.authed || 'false') || false,
         lang: {
-            index: localStorage.lang || 0,
+            index: JSON.parse(localStorage.lang || '0') || 0,
             option: ['pt-br', 'en-us'],
         },
         theme: {
-            index: localStorage.theme || 0,
+            index: JSON.parse(localStorage.theme || '0') || 0,
             option: ['light', 'dark'],
         },
     },

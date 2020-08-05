@@ -1,9 +1,67 @@
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    text-align: center;
+}
+
+.menu > .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.5rem;
+}
+
+.menu ul {
+    width: 100%;
+    padding: 3rem 1rem 1rem;
+}
+
+.menu li {
+    padding: .3rem 0;
+}
+
+.contas .sub,
+.menu .close,
+.menu li > * {
+    cursor: pointer;
+}
+
 .home-sidebar {
     padding: 1rem;
+    position: relative;
+    height: 100%;
+}
+
+.contas > li > div {
+    padding: .6rem 0;
+    cursor: pointer;
+}
+
+
+.contas > li > div > *,
+.contas .sub > * {
+    pointer-events: none;
+    cursor: pointer;
+}
+
+.contas li .number {
+    float: right;
+}
+
+.contas .sub {
+    padding: .6rem 0 .6rem 1rem;
 }
 
 .contas li .icon {
     display: inline-block;
+}
+
+.contas li.selected .sub.opened {
+    font-weight: 600;
 }
 
 .contas li.selected .icon {
@@ -14,29 +72,57 @@
     padding: 0 .3rem;
 }
 
-.contas li.selected ul {
-    padding-left: 1rem;
-}
-
 .header .fav {
     border-top: 1px solid transparent;
     padding: 1rem 0 1rem 1rem;
     margin-top: 1rem;
 }
 
-.header .top button,
+.header .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .header .fav span {
     float: right;
 }
 
-.header .top button {
-    vertical-align: super;
+.header .userMenu {
+    display: inline-block;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
+    cursor: pointer;
+}
+.header .userMenu span {
+    line-height: 3;
+    font-weight: 600;
+}
+
+.home-sidebar.light .menu {
+    background: #fff;
+    color: #000;
+}
+
+.home-sidebar.dark .menu {
+    background: #000;
+    color: #fff;
 }
 
 .home-sidebar.light .fav {
     border-top-color: #000;
 }
 
+.home-sidebar.light .userMenu {
+    border-color: #000;
+}
+
 .home-sidebar.dark .fav {
     border-top-color: #fff;
+}
+
+.header .userMenu {
+    background: crimson;
 }

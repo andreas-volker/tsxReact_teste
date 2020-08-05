@@ -1,0 +1,14 @@
+{
+    "pt-br": {
+        "header": "Bem vindo",
+        "user": "Usuário",
+        "password": "Senha",
+        "button": "Entrar"
+    },
+    "en-us": {
+        "header": "Welcome",
+        "user": "User",
+        "password": "Password",
+        "button": "Login"
+    }
+}

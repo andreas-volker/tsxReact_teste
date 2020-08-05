@@ -16,7 +16,10 @@ interface Sidebar extends BasicProps {
 }
 
 const HomeSidebar: React.FC<Sidebar> = (props) => {
-    const theme = props.theme.option[props.theme.index] || props.theme.option[0],
+    const localeData = require('./HomeSidebar.json'),
+        theme = props.theme.option[props.theme.index] || props.theme.option[0],
+        lang = props.lang.option[props.lang.index] || props.lang.option[0],
+        locale = localeData[lang],
         context = useContext(AppContext) || {},
         history = useHistory(),
         [settings, setSettings] = useState(JSON.parse(localStorage.settings || 'false')),
@@ -107,10 +110,10 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                     <div className="userMenu" onClick={openSettings}>
                         <span>OA</span>
                     </div>
-                    <button>New</button>
+                    <button>{locale.new_button}</button>
                 </div>
                 <div className="fav">
-                    Favoritas &#10247;
+                    {locale.favorites} &#10247;
                     <span>30</span>
                 </div>
             </div>
@@ -151,7 +154,7 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                     </span>
                     <ul>
                         <li>
-                            Idioma
+                            {locale.language}
                             <span data-dir="left" onClick={setLang}>
                                 &lt;
                             </span>
@@ -161,17 +164,17 @@ const HomeSidebar: React.FC<Sidebar> = (props) => {
                             </span>
                         </li>
                         <li>
-                            Tema
+                            {locale.theme}
                             <span data-dir="left" onClick={setTheme}>
                                 &lt;
                             </span>
-                            {context.state.theme.option[context.state.theme.index]}
+                            {locale[context.state.theme.option[context.state.theme.index]]}
                             <span data-dir="right" onClick={setTheme}>
                                 &gt;
                             </span>
                         </li>
                         <li onClick={logout}>
-                            <span>Logout</span>
+                            <span>{locale.logout}</span>
                         </li>
                     </ul>
                 </div>

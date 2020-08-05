@@ -1,0 +1,18 @@
+{
+    "pt-br": {
+        "assign": "Atribuir",
+        "archive": "Arquivar",
+        "schedule": "Agendar",
+        "today": "Hoje",
+        "hours": "Horas",
+        "search": "Pesquisar"
+    },
+    "en-us": {
+        "assign": "Assign",
+        "archive": "Archive",
+        "schedule": "Schedule",
+        "today": "Today",
+        "hours": "Hours",
+        "search": "Search"
+    }
+}

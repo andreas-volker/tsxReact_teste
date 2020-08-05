@@ -3,7 +3,10 @@ import AppContext, { BasicProps } from 'contexts/stored';
 import './Login.css';
 
 const Login: React.FC<BasicProps> = (props) => {
-    const theme = props.theme.option[props.theme.index] || props.theme.option[0],
+    const localeData = require('./Login.json'),
+        theme = props.theme.option[props.theme.index] || props.theme.option[0],
+        lang = props.lang.option[props.lang.index] || props.lang.option[0],
+        locale = localeData[lang],
         [username, setUsername] = useState(''),
         [password, setPassword] = useState(''),
         context = useContext(AppContext) || {},
@@ -22,21 +25,21 @@ const Login: React.FC<BasicProps> = (props) => {
         <div className={`login ${theme}`}>
             <div>
                 <form action="">
-                    <p>Bem vindo</p>
+                    <p>{locale.header}</p>
                     <input
                         type="text"
-                        placeholder="Usuário"
+                        placeholder={locale.user}
                         value={username}
                         onChange={(e) => setUsername(e.currentTarget.value)}
                     />
                     <input
                         type="text"
-                        placeholder="Senha"
+                        placeholder={locale.password}
                         value={password}
                         onChange={(e) => setPassword(e.currentTarget.value)}
                     />
                     <button onClick={click}>
-                        <span>Entrar</span>
+                        <span>{locale.button}</span>
                     </button>
                 </form>
             </div>

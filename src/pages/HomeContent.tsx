@@ -33,7 +33,10 @@ const HomeContent: React.FC<Content> = (props) => {
                 },
             ],
         }),
+        localeData = require('./HomeContent.json'),
         theme = props.theme.option[props.theme.index] || props.theme.option[0],
+        lang = props.lang.option[props.lang.index] || props.lang.option[0],
+        locale = localeData[lang],
         [itens, setItens] = useState<Item>(JSON.parse(localStorage.itens || json)),
         [checked, setChecked] = useState<string[]>(JSON.parse(localStorage.checked || '[]')),
         [archive, setArchive] = useState<string[]>(JSON.parse(localStorage.archive || '[]')),
@@ -105,13 +108,13 @@ const HomeContent: React.FC<Content> = (props) => {
         <div className={`home-content ${theme}`}>
             <div className="header">
                 <div className="search">
-                    <input type="text" placeholder="Pesquisar" />
+                    <input type="text" placeholder={locale.search} />
                 </div>
                 <div className="botoes">
                     <input type="checkbox" onChange={selectAll} />
-                    <button>Atribuir</button>
-                    <button onClick={arquivar}>Arquivar</button>
-                    <button>Agendar</button>
+                    <button>{locale.assign}</button>
+                    <button onClick={arquivar}>{locale.archive}</button>
+                    <button>{locale.schedule}</button>
                 </div>
             </div>
             <div className="itens">
@@ -156,8 +159,8 @@ const HomeContent: React.FC<Content> = (props) => {
                                     </span>
                                 </div>
                                 <div className="detail">
-                                    <span>Hoje, 11h42</span>
-                                    <span>2 horas</span>
+                                    <span>{locale.today}, 11h42</span>
+                                    <span>2 {locale.hours}</span>
                                     <div className="users-list">
                                         {item.users.map((user, index) => {
                                             return (

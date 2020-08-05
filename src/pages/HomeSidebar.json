@@ -1,0 +1,20 @@
+{
+    "pt-br": {
+        "new_button": "Novo",
+        "favorites": "Favoritas",
+        "language": "Idioma",
+        "theme": "Tema",
+        "logout": "Sair",
+        "light": "claro",
+        "dark": "escuro"
+    },
+    "en-us": {
+        "new_button": "New",
+        "favorites": "Favorites",
+        "language": "Language",
+        "theme": "Theme",
+        "logout": "Logout",
+        "light": "light",
+        "dark": "dark"
+    }
+}
